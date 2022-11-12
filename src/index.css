@@ -1,13 +1,71 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.App {
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.form {
+  width: 60%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form :first-child {
+  width: 79%;
+  height: 35px;
+  outline: none;
+  border-radius: 3px;
+  box-sizing: border-box;
+  border: none;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.184);
+}
+
+.form :last-child {
+  width: 20%;
+  height: 35px;
+  box-sizing: border-box;
+  background: none;
+  border: none;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.184);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.todos {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.todoBlock {
+  display: flex;
+  width: 60%;
+  justify-content: space-between;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.067);
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.todoBlock :first-child,
+.todoBlock :last-child {
+  width: 10%;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.textTodo {
+  width: 60%;
+  font-size: 23px;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+.added {
+  opacity: 50%;
 }
