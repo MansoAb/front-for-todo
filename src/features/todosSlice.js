@@ -35,7 +35,6 @@ export const patchTodos = createAsyncThunk(
   "todos/patch",
   async (act, thunkAPI) => {
     try {
-      console.log(act.id, act.bl);
       const res = await fetch(`http://localhost:3001/todos/${act.id}`, {
         method: "PATCH",
         body: JSON.stringify({
@@ -102,7 +101,6 @@ export const todosSlice = createSlice({
         });
       })
       .addCase(postTodos.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.todos.unshift({ text: action.payload, bl: false });
       });
   },
