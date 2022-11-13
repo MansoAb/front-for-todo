@@ -65,7 +65,7 @@ export const postTodos = createAsyncThunk(
           "Content-type": "application/json; charset=UTF-8",
         },
       });
-      return text;
+      return res.json();
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
     }
@@ -101,7 +101,8 @@ export const todosSlice = createSlice({
         });
       })
       .addCase(postTodos.fulfilled, (state, action) => {
-        state.todos.unshift({ text: action.payload, bl: false });
+        console.log();
+        state.todos.push(action.payload);
       });
   },
 });
