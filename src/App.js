@@ -1,69 +1,17 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  patchTodos,
-  postTodos,
-  deleteTodos,
-  fetchTodos,
-} from "./features/todosSlice";
+import { Route, Routes } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import SignIn from "./pages/SignInPage";
+import SignUp from "./pages/SignUpPage";
 
 function App() {
-  const todos = useSelector((state) => state.todos);
-  const dispatch = useDispatch();
-  const loading = useSelector((state) => state.loading);
-
-  const [text, setText] = useState("");
-
-  useEffect(() => {
-    dispatch(fetchTodos());
-  }, [dispatch]);
-
-  const handleAd = (id, bl) => {
-    dispatch(patchTodos({ id, bl }));
-  };
-
-  const handleDel = (id) => {
-    dispatch(deleteTodos(id));
-  };
-
-  const handleText = (e) => {
-    setText(e.target.value);
-  };
-  const handlePost = (text) => {
-    dispatch(postTodos(text));
-    setText("");
-  };
-
   return (
-    <div className="App">
-      <div className="form">
-        <input type="text" onChange={handleText} value={text} />
-        <input
-          type="button"
-          onClick={() => handlePost(text)}
-          value="добавить"
-        />
-      </div>
-
-      <div className="todos">
-        {loading ? (
-          todos.map((item, index) => {
-            return (
-              <div
-                key={item.id}
-                className={`todoBlock ${item.bl ? "added" : null}`}
-              >
-                <button onClick={() => handleAd(item._id, item.bl)}>✅</button>
-                <h1 className="textTodo">{item.text}</h1>
-                <button onClick={() => handleDel(item._id)}>❌</button>
-              </div>
-            );
-          })
-        ) : (
-          <span>Загрузка...</span>
-        )}
-      </div>
-    </div>
+    <>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/signIn" element={<SignIn />} />
+        <Route path="/signUp" element={<SignUp />} />
+      </Routes>
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   todos: [],
@@ -19,12 +19,15 @@ export const fetchTodos = createAsyncThunk(
 
 export const deleteTodos = createAsyncThunk(
   "todos/delete",
-  async (id, thunkAPI) => {
+  async (act, thunkAPI) => {
     try {
-      await fetch(`http://localhost:3001/todos/${id}`, {
+      const res = await fetch(`http://localhost:3001/todos/${act.id}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${act.token}`,
+        },
       });
-      return id;
+      return res.json();
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
     }
@@ -42,27 +45,7 @@ export const patchTodos = createAsyncThunk(
         }),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
-        },
-      });
-      return act.id;
-    } catch (e) {
-      return thunkAPI.rejectWithValue(e);
-    }
-  }
-);
-
-export const postTodos = createAsyncThunk(
-  "todos/post",
-  async (text, thunkAPI) => {
-    try {
-      const res = await fetch(`http://localhost:3001/todos`, {
-        method: "POST",
-        body: JSON.stringify({
-          bl: false,
-          text: text,
-        }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
+          Authorization: `Bearer ${act.token}`,
         },
       });
       return res.json();
@@ -72,7 +55,27 @@ export const postTodos = createAsyncThunk(
   }
 );
 
-export const ad = createAction("ad");
+export const postTodos = createAsyncThunk(
+  "todos/post",
+  async (act, thunkAPI) => {
+    try {
+      const res = await fetch(`http://localhost:3001/todos`, {
+        method: "POST",
+        body: JSON.stringify({
+          bl: false,
+          text: act.text,
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          Authorization: `Bearer ${act.token}`,
+        },
+      });
+      return res.json("jb");
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
 
 export const todosSlice = createSlice({
   name: "todos",
@@ -89,7 +92,7 @@ export const todosSlice = createSlice({
       })
       .addCase(patchTodos.fulfilled, (state, action) => {
         state.todos = state.todos.map((item) => {
-          if (item._id === action.payload) {
+          if (item._id === action.payload._id) {
             item.bl = !item.bl;
           }
           return item;
@@ -97,11 +100,10 @@ export const todosSlice = createSlice({
       })
       .addCase(deleteTodos.fulfilled, (state, action) => {
         state.todos = state.todos.filter((item) => {
-          return item._id !== action.payload;
+          return item._id !== action.payload._id;
         });
       })
       .addCase(postTodos.fulfilled, (state, action) => {
-        console.log();
         state.todos.push(action.payload);
       });
   },
